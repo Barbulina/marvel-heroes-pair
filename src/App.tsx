@@ -1,6 +1,7 @@
 
 import { useSelector, useDispatch } from 'react-redux';
-import * as actions from './redux/actions';
+import { Character } from './common/Character';
+import * as actions from './state/actions';
 
 function App() {
   const characters = useSelector( (store: any )=> store.characters);
@@ -10,11 +11,9 @@ function App() {
     <div>
       <h1>{characters.length}</h1>
       <button onClick={() => dispatch(actions.getCharacters(5))}>GET CHARACTERS</button>
-
-
         { characters.map((char: any) => {  
-          console.log('--->',char.name);    
-         return <div key={char.name}>{char.name}</div>
+          console.log(char)
+         return <Character key={char.name} character={char}></Character>
         })}
   
     </div>

@@ -25,7 +25,6 @@ export const getCharacters = (limit = 50) => {
       })
       .then((response: any) => {
         const characters = response.data.data.results;
-        console.log("RESPONSE ", characters);
         dispatch(loadCharacters(characters));
       })
       .catch((err) => console.log("Error", err));
