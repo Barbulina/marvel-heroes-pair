@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "antd";
-import { CharacterModel } from "./Character/character.model";
+import { CharacterModel } from "./character.model";
 const { Meta } = Card;
 
 export function Character({ character }: {character: CharacterModel}) {

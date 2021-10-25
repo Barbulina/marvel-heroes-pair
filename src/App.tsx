@@ -1,24 +1,21 @@
-
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Character } from './common/Character';
+import { CharacterModel } from './common/Character/character.model';
+import CharacterList from './common/CharacterList/CharacterList';
+import SearchForm from './common/SearchForm/SearchForm';
 import * as actions from './state/actions';
 
 function App() {
-  const characters = useSelector( (store: any )=> store.characters);
+  const characters: CharacterModel[] = useSelector( (store: any )=> store.characters);
+  const isLoadingCharacters: boolean = useSelector((store: any) => store.loading);
+  const searchPlaceholder:string = 'type to search'
   const dispatch = useDispatch();
+  const search = (e: any) => dispatch(actions.getCharacters({limit: 100, nameStartsWith: e}));
   return (
-
-    <div>
-      <h1>{characters.length}</h1>
-      <button onClick={() => dispatch(actions.getCharacters(5))}>GET CHARACTERS</button>
-        { characters.map((char: any) => {  
-          console.log(char)
-         return <Character key={char.name} character={char}></Character>
-        })}
-  
-    </div>
-
-   
+    <React.Fragment>
+      <SearchForm placeholder={searchPlaceholder} isLoading={isLoadingCharacters} onSearch={search}></SearchForm>
+      <CharacterList characters={characters}></CharacterList>
+    </React.Fragment>
   );
 }
 

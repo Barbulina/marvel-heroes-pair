@@ -14,6 +14,11 @@ const charactersReducer = (state = initialState, action: any) => {
         ...state,
         characters: action.payload,
       };
+    case ACTIONS.IS_LOADING_CHARACTER:
+      return {
+        ...state,
+        loading: action.payload,
+      };
     default:
       return state;
   }

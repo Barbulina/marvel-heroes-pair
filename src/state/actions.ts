@@ -5,18 +5,35 @@ import { BASE_URL } from "../constants";
 
 export enum ACTIONS {
   GET_CHARACTERS = "GET_CHARACTERS",
+  IS_LOADING_CHARACTER = "IS_LOADING_CHARACTER",
 }
 
 export const loadCharacters = (characters: any) => {
   return { type: ACTIONS.GET_CHARACTERS, payload: characters };
 };
 
-export const getCharacters = (limit = 50) => {
+export const isLoadingCharacters = (isLoading: boolean) => {
+  return { type: ACTIONS.IS_LOADING_CHARACTER, payload: isLoading };
+};
+
+export const getCharacters = ({
+  limit = 50,
+  nameStartsWith = undefined,
+}: {
+  limit: number;
+  nameStartsWith: string | undefined;
+}) => {
   return function (dispatch: any) {
     const ts = new Date().getTime();
     const hash = md5(ts + config.privateKey + config.publicKey).toString();
+
+    dispatch(isLoadingCharacters(true));
+    let url = BASE_URL + `v1/public/characters?limit=${limit}`;
+    if (nameStartsWith) {
+      url += `&nameStartsWith=${nameStartsWith}`;
+    }
     axios
-      .get(BASE_URL + `v1/public/characters?limit=${limit}`, {
+      .get(url, {
         params: {
           ts,
           hash,
@@ -27,6 +44,7 @@ export const getCharacters = (limit = 50) => {
         const characters = response.data.data.results;
         dispatch(loadCharacters(characters));
       })
-      .catch((err) => console.log("Error", err));
+      .catch((err) => console.log("Error", err))
+      .finally(() => dispatch(isLoadingCharacters(false)));
   };
 };
