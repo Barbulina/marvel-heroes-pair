@@ -3,6 +3,9 @@ import { Input } from 'antd';
 import { Select } from 'antd';
 import { AutoComplete } from 'antd';
 import debounce from "../../helpers/debounce";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from '../../state/actions';
+
 const DEBOUNCE_TIME = 1000;
 const TYPES = [
 'comics', 'creators', 'events', 'series', 'stories'
@@ -11,34 +14,42 @@ const { Option } = Select;
 const { Search } = Input;
 
 export default function SearchForm({isLoading, placeholder, onSearch}:{isLoading:boolean, placeholder:string, onSearch: Function}) {
-
+  const dispatch = useDispatch();
   const [typeSelected, setType] = useState('');
-  const searchHandler = (event: any) => {
-    console.log(event);
-    onSearch(event);
-  }
+  const [idTypeSelected, setIdType] = useState();
 
-  const handleChangeType = (type: string)  => {
-    setType(type);
-  }
+  const searchHandler = (event: any) => { 
+    let filter;
+    if(idTypeSelected && typeSelected){
+      filter = {
+        type: typeSelected,
+        id: idTypeSelected
+      }
+    }
+    onSearch(event, filter);
+  };
 
-  const options = [{value: 'option 1'}, {value: 'option 2'}];
-
-  const onSelect = (e: any) => {
-    console.log('on select' , e, typeSelected);
-  }
+  const handleChangeType = (type: string) => { 
+    dispatch(actions.loadTypes([]));
+    setType(type); 
+  };
+  const onSelectType = (value: string, option: any) => setIdType(option.id);
+  const options: {label:string, value:string}[] = useSelector( (store: any )=> store.types);
+  
    
   const onSearchByType = debounce((value: string) => {
-    console.log('values debounced' , value);  
+    setIdType(undefined);
+    dispatch(actions.getTypes(typeSelected, value))
   }, DEBOUNCE_TIME);
   
   return (
     <React.Fragment>
       <Search onSearch={searchHandler} placeholder={placeholder} loading={isLoading} enterButton />
       <AutoComplete
+        allowClear={true}
         options={options}
         style={{ width: 200 }}
-        onSelect={onSelect}
+        onSelect={onSelectType}
         onSearch={onSearchByType}
         placeholder="search " 
         disabled={!typeSelected}

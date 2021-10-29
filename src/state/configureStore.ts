@@ -5,7 +5,7 @@ import { ACTIONS } from "./actions";
 const initialState = {
   loading: false,
   characters: [],
-  series: [],
+  types: [],
 };
 
 const charactersReducer = (state = initialState, action: any) => {
@@ -15,10 +15,10 @@ const charactersReducer = (state = initialState, action: any) => {
         ...state,
         characters: action.payload,
       };
-    case ACTIONS.GET_SERIES:
+    case ACTIONS.GET_TYPES:
       return {
         ...state,
-        series: action.payload,
+        types: action.payload,
       };
     case ACTIONS.IS_LOADING:
       return {
