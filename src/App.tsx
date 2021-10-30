@@ -12,7 +12,7 @@ export default function App() {
   const [location, setLocation] = useLocation();
   if (location === "/") setLocation(BASE_PATH);
 
-  const handlerChangeTab = function (value: any) {
+  const handlerChangeTab = function (value: string): void {
     setLocation(`/${value}`);
   };
   return (
@@ -21,11 +21,11 @@ export default function App() {
         <PageHeader className="site-page-header" title={title} />
       </Header>
       <Layout>
-        <Content>
+        <Content className="App__container">
           <Route path="/searchs" component={Characters} />
         </Content>
       </Layout>
-      <Footer>
+      <Footer className="App__footer">
         <Tabs defaultActiveKey="1" onChange={handlerChangeTab}>
           <TabPane tab="Searchs" key="Searchs" />
           <TabPane tab="Album" key="Album" />
