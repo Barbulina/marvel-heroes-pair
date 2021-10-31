@@ -1,8 +1,7 @@
-import axios from "axios";
-import md5 from "md5";
-import { config } from "../config-api";
-import { BASE_URL } from "../constants";
-import { fetchByType } from "../services/seriesServices";
+import {
+  fetchByType,
+  fetchSearchCharacters,
+} from "../services/marvalApiServices";
 
 export enum ACTIONS {
   GET_CHARACTERS = "GET_CHARACTERS",
@@ -56,21 +55,8 @@ export const getCharacters = ({
   filter?: { type: String; id: number };
 }) => {
   return function (dispatch: any) {
-    const ts = new Date().getTime();
-    const hash = md5(ts + config.privateKey + config.publicKey).toString();
-
     dispatch(isLoading(true));
-
-    const url = getUrl(nameStartsWith, limit, filter);
-
-    axios
-      .get(url, {
-        params: {
-          ts,
-          hash,
-          apikey: config.publicKey,
-        },
-      })
+    fetchSearchCharacters({ limit, nameStartsWith, filter })
       .then((response: any) => {
         const characters = response.data.data.results;
         dispatch(loadCharacters(characters));
@@ -78,21 +64,4 @@ export const getCharacters = ({
       .catch((err) => console.log("Error", err))
       .finally(() => dispatch(isLoading(false)));
   };
-};
-
-const getUrl = function (
-  nameStartsWith: string | undefined,
-  limit = 50,
-  filter?: { type: String; id: number }
-): string {
-  let url = BASE_URL;
-  if (!filter) {
-    url += `characters?limit=${limit}`;
-  } else {
-    url += `${filter.type}/${filter.id}/characters?limit=${limit}`;
-  }
-  if (nameStartsWith) {
-    url += `&nameStartsWith=${nameStartsWith}`;
-  }
-  return url;
 };
