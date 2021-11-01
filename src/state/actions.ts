@@ -1,16 +1,28 @@
+import { CharacterModel } from "../components/Character/character.model";
 import {
+  DEFAULT_LIMIT,
   fetchByType,
   fetchSearchCharacters,
 } from "../services/marvalApiServices";
 
 export enum ACTIONS {
   GET_CHARACTERS = "GET_CHARACTERS",
+  GET_TOTAL_CHARACTERS = "GET_TOTAL_CHARACTERS",
+  CLEAR_CHARACTERS = "CLEAR_CHARACTERS",
   IS_LOADING = "IS_LOADING",
   GET_TYPES = "GET_TYPES",
 }
 
-export const loadCharacters = (characters: any) => {
+export const clearCharacters = () => {
+  return { type: ACTIONS.CLEAR_CHARACTERS };
+};
+
+export const loadCharacters = (characters: CharacterModel) => {
   return { type: ACTIONS.GET_CHARACTERS, payload: characters };
+};
+
+export const loadTotalCharacters = (total: number) => {
+  return { type: ACTIONS.GET_TOTAL_CHARACTERS, payload: total };
 };
 
 export const isLoading = (isLoading: boolean) => {
@@ -46,19 +58,24 @@ export const getTypes = (type: string, nameStartsWith: string) => {
 };
 
 export const getCharacters = ({
-  limit = 50,
+  limit = DEFAULT_LIMIT,
   nameStartsWith = undefined,
   filter = undefined,
+  offset = undefined,
 }: {
   limit: number;
   nameStartsWith: string | undefined;
   filter?: { type: String; id: number };
+  offset?: number;
 }) => {
   return function (dispatch: any) {
     dispatch(isLoading(true));
-    fetchSearchCharacters({ limit, nameStartsWith, filter })
+    if (!offset) dispatch(clearCharacters());
+    fetchSearchCharacters({ limit, nameStartsWith, filter, offset })
       .then((response: any) => {
         const characters = response.data.data.results;
+        const totalCharactersToSearch = response.data.data.total;
+        dispatch(loadTotalCharacters(totalCharactersToSearch));
         dispatch(loadCharacters(characters));
       })
       .catch((err) => console.log("Error", err))
