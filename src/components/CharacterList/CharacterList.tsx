@@ -5,14 +5,20 @@ import { Character } from "../Character/Character";
 import { CharacterModel } from "../Character/character.model";
 import "./CharacterList.scss";
 
+enum COL_SIZES {
+  xs = 16,
+  sm = 8,
+  md = 4,
+  lg = 4,
+}
+
 export default function CharacterList({
   characters,
   total,
 }: {
-  characters: CharacterModel[];
+  characters: CharacterModel[] | undefined;
   total: number;
 }) {
-  const colsSpan: number = 4;
   const renderCharacters = () => {
     if (characters && characters.length > 0) {
       const cols = characters.map((char: any) => {
@@ -20,10 +26,10 @@ export default function CharacterList({
           <Col
             key={char.id}
             className="character"
-            xs={24}
-            sm={12}
-            md={6}
-            lg={colsSpan}
+            xs={COL_SIZES.xs}
+            sm={COL_SIZES.sm}
+            md={COL_SIZES.md}
+            lg={COL_SIZES.lg}
           >
             <Character character={char}></Character>
           </Col>
@@ -37,8 +43,10 @@ export default function CharacterList({
           <Row>{cols}</Row>
         </>
       );
-    } else {
+    } else if (characters?.length === 0) {
       return <Empty />;
+    } else {
+      return <p>Start search</p>;
     }
   };
   return <>{renderCharacters()}</>;

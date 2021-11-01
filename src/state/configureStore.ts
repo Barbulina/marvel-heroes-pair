@@ -7,14 +7,14 @@ import { ACTIONS } from "./actions";
 
 export interface StateModel {
   loading: boolean;
-  characters: Array<CharacterModel>;
+  characters: Array<CharacterModel> | undefined;
   totalCharacters: number;
   types: Array<any>;
 }
 
 const initialState = {
   loading: false,
-  characters: [],
+  characters: undefined,
   totalCharacters: undefined,
   types: [],
 };
@@ -24,7 +24,7 @@ const charactersReducer = (state = initialState, action: any): any => {
     case ACTIONS.GET_CHARACTERS:
       return {
         ...state,
-        characters: [...state.characters, ...action.payload],
+        characters: [...(state.characters || []), ...action.payload],
       };
     case ACTIONS.GET_TOTAL_CHARACTERS:
       return {

@@ -5,13 +5,13 @@ import SearchForm from "../components/SearchForm/SearchForm";
 import { DEFAULT_LIMIT } from "../services/marvalApiServices";
 import * as actions from "../state/actions";
 import { StateModel } from "../state/configureStore";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { useState } from "react";
 
 export default function Characters() {
   const [textToFilter, setTextToFilter] = useState(undefined);
   const [filterToApply, setFilterToApply] = useState({});
-  const characters: CharacterModel[] = useSelector(
+  const characters: CharacterModel[] | undefined = useSelector(
     (store: any) => store.characters
   );
   const isLoading: boolean = useSelector((store: any) => store.loading);
@@ -20,7 +20,11 @@ export default function Characters() {
   );
   const searchPlaceholder: string = "type to search";
   const dispatch = useDispatch();
-  const search = (textToFilter: any, filter: any, offset: number) => {
+  const search = (
+    textToFilter: any,
+    filter: any,
+    offset: number | undefined
+  ) => {
     setTextToFilter(textToFilter);
     setFilterToApply(filter);
     dispatch(
@@ -33,7 +37,7 @@ export default function Characters() {
     );
   };
   const showLoadMoreButton = () => {
-    if (totalCharacters > characters.length)
+    if (characters && totalCharacters > characters.length)
       return (
         <Button type="primary" onClick={loadMore}>
           load more
@@ -41,7 +45,23 @@ export default function Characters() {
       );
   };
   const loadMore = () => {
-    search(textToFilter, filterToApply, characters.length);
+    search(textToFilter, filterToApply, characters?.length);
+  };
+  const renderList = function () {
+    if (isLoading && (!characters || characters?.length < 1)) {
+      return (
+        <div className="App__loading">
+          <Spin />;
+        </div>
+      );
+    } else {
+      return (
+        <CharacterList
+          characters={characters}
+          total={totalCharacters}
+        ></CharacterList>
+      );
+    }
   };
   return (
     <>
@@ -51,10 +71,7 @@ export default function Characters() {
         onSearch={search}
       ></SearchForm>
       <div className="App__list">
-        <CharacterList
-          characters={characters}
-          total={totalCharacters}
-        ></CharacterList>
+        {renderList()}
         {showLoadMoreButton()}
       </div>
     </>

@@ -1,7 +1,7 @@
 import "./App.scss";
 import { Route, useLocation } from "wouter";
 import { Layout, PageHeader, Tabs } from "antd";
-import Characters from "./pages/Charaters";
+import Characters from "./pages/CharatersSearch";
 
 const { Header, Footer, Content } = Layout;
 const { TabPane } = Tabs;
