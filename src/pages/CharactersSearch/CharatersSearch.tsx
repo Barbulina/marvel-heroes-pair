@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { CharacterModel } from "../components/Character/character.model";
-import CharacterList from "../components/CharacterList/CharacterList";
-import SearchForm from "../components/SearchForm/SearchForm";
-import { DEFAULT_LIMIT } from "../services/marvalApiServices";
-import * as actions from "../state/actions";
-import { StateModel } from "../state/configureStore";
+import { CharacterModel } from "../../components/Character/character.model";
+import CharacterList from "../../components/CharacterList/CharacterList";
+import SearchForm from "../../components/SearchForm/SearchForm";
+import { DEFAULT_LIMIT } from "../../services/marvalApiServices";
+import * as actions from "../../state/actions";
+import { StateModel } from "../../state/configureStore";
 import { Button, Spin } from "antd";
 import { useState } from "react";
 

@@ -1,62 +1,82 @@
 import React, { useState } from "react";
-import { Input } from 'antd';
-import { Select } from 'antd';
-import { AutoComplete } from 'antd';
-import debounce from "../../helpers/debounce";
+import { Input } from "antd";
+import { Select } from "antd";
+import { AutoComplete } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from '../../state/actions';
+import * as actions from "../../state/actions";
+import debounce from "../../helpers/debounce/debounce";
 
 const DEBOUNCE_TIME = 1000;
-const TYPES = [
-'comics', 'creators', 'events', 'series', 'stories'
-]
+const TYPES = ["comics", "creators", "events", "series", "stories"];
 const { Option } = Select;
 const { Search } = Input;
 
-export default function SearchForm({isLoading, placeholder, onSearch}:{isLoading:boolean, placeholder:string, onSearch: Function}) {
+export default function SearchForm({
+  isLoading,
+  placeholder,
+  onSearch,
+}: {
+  isLoading: boolean;
+  placeholder: string;
+  onSearch: Function;
+}) {
   const dispatch = useDispatch();
-  const [typeSelected, setType] = useState('');
+  const [typeSelected, setType] = useState("");
   const [idTypeSelected, setIdType] = useState();
 
-  const searchHandler = (event: any) => { 
+  const searchHandler = (event: any) => {
     let filter;
-    if(idTypeSelected && typeSelected){
+    if (idTypeSelected && typeSelected) {
       filter = {
         type: typeSelected,
-        id: idTypeSelected
-      }
+        id: idTypeSelected,
+      };
     }
     onSearch(event, filter);
   };
 
-  const handleChangeType = (type: string) => { 
+  const handleChangeType = (type: string) => {
     dispatch(actions.loadTypes([]));
-    setType(type); 
+    setType(type);
   };
   const onSelectType = (value: string, option: any) => setIdType(option.id);
-  const options: {label:string, value:string}[] = useSelector( (store: any )=> store.types);
-  
-   
+  const options: { label: string; value: string }[] = useSelector(
+    (store: any) => store.types
+  );
+
   const onSearchByType = debounce((value: string) => {
     setIdType(undefined);
-    dispatch(actions.getTypes(typeSelected, value))
+    dispatch(actions.getTypes(typeSelected, value));
   }, DEBOUNCE_TIME);
-  
+
   return (
     <React.Fragment>
-      <Search onSearch={searchHandler} placeholder={placeholder} loading={isLoading} enterButton />
+      <Search
+        onSearch={searchHandler}
+        placeholder={placeholder}
+        loading={isLoading}
+        enterButton
+      />
       <AutoComplete
         allowClear={true}
         options={options}
         style={{ width: 200 }}
         onSelect={onSelectType}
         onSearch={onSearchByType}
-        placeholder="search " 
+        placeholder="search "
         disabled={!typeSelected}
       />
-      <Select placeholder="test" style={{ width: 120 }} onChange={handleChangeType}>
-        {TYPES.map(type =>  <Option  key={type} value={type}>{type}</Option>)}
-    </Select>
+      <Select
+        placeholder="test"
+        style={{ width: 120 }}
+        onChange={handleChangeType}
+      >
+        {TYPES.map((type) => (
+          <Option key={type} value={type}>
+            {type}
+          </Option>
+        ))}
+      </Select>
     </React.Fragment>
   );
 }
