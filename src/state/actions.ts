@@ -2,11 +2,13 @@ import { CharacterModel } from "../components/Character/character.model";
 import {
   DEFAULT_LIMIT,
   fetchByType,
+  fetchCharactersById,
   fetchSearchCharacters,
 } from "../services/marvalApiServices";
 
 export enum ACTIONS {
   GET_CHARACTERS = "GET_CHARACTERS",
+  GET_CHARACTER_BY_ID = "GET_CHARACTER_BY_ID",
   GET_TOTAL_CHARACTERS = "GET_TOTAL_CHARACTERS",
   CLEAR_CHARACTERS = "CLEAR_CHARACTERS",
   IS_LOADING = "IS_LOADING",
@@ -20,8 +22,12 @@ export const clearCharacters = () => {
   return { type: ACTIONS.CLEAR_CHARACTERS };
 };
 
-export const loadCharacters = (characters: CharacterModel) => {
+export const loadCharacters = (characters: CharacterModel[]) => {
   return { type: ACTIONS.GET_CHARACTERS, payload: characters };
+};
+
+export const loadCharacterById = (character: CharacterModel) => {
+  return { type: ACTIONS.GET_CHARACTER_BY_ID, payload: character };
 };
 
 export const loadTotalCharacters = (total: number) => {
@@ -62,6 +68,19 @@ export const getTypes = (type: string, nameStartsWith: string) => {
           return parsedItem;
         });
         dispatch(loadTypes(results));
+      })
+      .catch((err) => console.error(err))
+      .finally(() => dispatch(isLoading(false)));
+  };
+};
+
+export const getCharacterById = (id: any) => {
+  return function (dispatch: any) {
+    dispatch(isLoading(true));
+    fetchCharactersById(id)
+      .then((response: any) => {
+        const character = response.data.data.results[0];
+        dispatch(loadCharacterById(character));
       })
       .catch((err) => console.error(err))
       .finally(() => dispatch(isLoading(false)));

@@ -12,6 +12,7 @@ export interface StateModel {
   totalCharacters: number;
   types: Array<any>;
   album: Array<CharacterModel>;
+  detail: CharacterModel | undefined;
 }
 
 export const initialState = {
@@ -20,6 +21,7 @@ export const initialState = {
   totalCharacters: undefined,
   types: [],
   album: recoverAlbumFromLocalstorage(),
+  detail: undefined,
 };
 
 export default createStore(charactersReducer, applyMiddleware(thunkMiddleware));

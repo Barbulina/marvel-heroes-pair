@@ -29,6 +29,14 @@ export const fetchSearchCharacters = ({
   });
 };
 
+export const fetchCharactersById = (id: number): Promise<any> => {
+  const url = BASE_URL + `characters/${id}`;
+
+  return axios.get(url, {
+    params: getApiConfigParams(),
+  });
+};
+
 export const fetchByType = ({
   type,
   nameStartsWith,

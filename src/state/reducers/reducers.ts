@@ -6,6 +6,11 @@ const localStorageAlbumName = "currentAlbum";
 
 export const charactersReducer = (state = initialState, action: any): any => {
   switch (action.type) {
+    case ACTIONS.GET_CHARACTER_BY_ID:
+      return {
+        ...state,
+        detail: action.payload,
+      };
     case ACTIONS.GET_CHARACTERS:
       return {
         ...state,
