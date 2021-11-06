@@ -11,6 +11,9 @@ export enum ACTIONS {
   CLEAR_CHARACTERS = "CLEAR_CHARACTERS",
   IS_LOADING = "IS_LOADING",
   GET_TYPES = "GET_TYPES",
+  GET_ALBUM_CHARACTERS = "GET_ALBUM_CHARACTERS",
+  ADD_CHARACTER_TO_ALBUM = "ADD_CHARACTER_TO_ALBUM",
+  REMOVE_CHARACTER_TO_ALBUM = "REMOVE_CHARACTER_TO_ALBUM",
 }
 
 export const clearCharacters = () => {
@@ -35,6 +38,14 @@ export const loadTypes = (series: any) => {
 
 export const isLoadingSeries = (isLoading: boolean) => {
   return { type: ACTIONS.IS_LOADING, payload: isLoading };
+};
+
+export const addCharacterToAlbum = (character: CharacterModel) => {
+  return { type: ACTIONS.ADD_CHARACTER_TO_ALBUM, payload: character };
+};
+
+export const removeCharacterToAlbum = (character: CharacterModel) => {
+  return { type: ACTIONS.REMOVE_CHARACTER_TO_ALBUM, payload: character };
 };
 
 export const getTypes = (type: string, nameStartsWith: string) => {

@@ -5,9 +5,10 @@
 ### TODO list v1
 
 [x] - Add loadings
-[] - Add to album function
-[] - Album view
+[x] - Add to album function
+[x] - Album view
 [] - Character details view
+[] - Languages
 [] - UI design
 [] - Deploy in github pages
 [] - Unit tests

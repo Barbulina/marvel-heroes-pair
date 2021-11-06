@@ -1,4 +1,3 @@
-import React from "react";
 import { Empty } from "antd";
 import { Row, Col } from "antd";
 import { Character } from "../Character/Character";

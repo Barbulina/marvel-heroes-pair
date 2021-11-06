@@ -3,6 +3,7 @@ import { Route, useLocation } from "wouter";
 import { Layout, PageHeader, Tabs } from "antd";
 import Characters from "./pages/CharactersSearch/CharatersSearch";
 import Album from "./pages/Album/Album";
+import CharacterDetail from "./pages/CharacterDetail/CharacterDetail";
 
 const { Header, Footer, Content } = Layout;
 const { TabPane } = Tabs;
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/" component={Album} />
           <Route path="/album" component={Album} />
           <Route path="/searchs" component={Characters} />
+          <Route path="/character/:characterId" component={CharacterDetail} />
         </Content>
       </Layout>
       <Footer className="App__footer">

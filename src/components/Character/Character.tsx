@@ -5,6 +5,9 @@ import {
   MinusCircleOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import * as actions from "../../state/actions";
+import useLocation from "wouter/use-location";
 
 const { Meta } = Card;
 
@@ -13,9 +16,11 @@ export function Character({
 }: {
   character: CharacterModel;
 }): JSX.Element {
+  const dispatch = useDispatch();
   const aspecRatio = "portrait_xlarge";
   const image: string = `${character.thumbnail.path}/${aspecRatio}.${character.thumbnail.extension}`;
-  const cover = <img alt="example" src={image} />;
+  const cover = <img alt="character " src={image} />;
+  const [location, setLocation] = useLocation();
 
   // TODO  move to click in card
   const infoButton = (
@@ -52,19 +57,24 @@ export function Character({
     </>
   );
   const handlerGoToInfoCharacter = (character: CharacterModel): void => {
-    console.log("Character info of", character);
+    setLocation(`/character/${character.id}`);
   };
   const handlerAddCharacter = (character: CharacterModel): void => {
-    console.log("add ", character);
+    dispatch(actions.addCharacterToAlbum(character));
   };
   const handlerRemoveCharacter = (character: CharacterModel): void => {
-    console.log("remove", character);
+    dispatch(actions.removeCharacterToAlbum(character));
   };
-  const actions: JSX.Element[] = [infoButton, addButton, removeBotton];
+  const actionsInCard: JSX.Element[] = [infoButton, addButton, removeBotton];
 
   return (
     <>
-      <Card hoverable style={{ width: "100%" }} cover={cover} actions={actions}>
+      <Card
+        hoverable
+        style={{ width: "100%" }}
+        cover={cover}
+        actions={actionsInCard}
+      >
         <Meta title={character.name} />
       </Card>
     </>
