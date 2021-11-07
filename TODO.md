@@ -7,8 +7,7 @@
 [x] - Add loadings
 [x] - Add to album function
 [x] - Album view
-[] - Character details view
-[] - Languages
+[x] - Character details view
 [] - UI design
 [] - Deploy in github pages
 [] - Unit tests
@@ -16,7 +15,13 @@
 
 ## Phase 2 - Speeling challenger
 
+- ???
+  
+## Phase 3 - Refinament
+[] - Languages
+
 ### TODO list v2
 
 [] - Create time bar
 [] - Score list component
+
