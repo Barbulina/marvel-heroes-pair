@@ -18,6 +18,8 @@ export default function CharacterList({
   characters: CharacterModel[] | undefined;
   total: number;
 }) {
+  console.log("CHARCTERS LIST ", characters);
+
   const renderCharacters = () => {
     if (characters && characters.length > 0) {
       const cols = characters.map((char: any) => {

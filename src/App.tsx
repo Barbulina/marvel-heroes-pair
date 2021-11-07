@@ -3,17 +3,15 @@ import { Route, useLocation } from "wouter";
 import { Layout, PageHeader, Tabs } from "antd";
 import Characters from "./pages/CharactersSearch/CharatersSearch";
 import Album from "./pages/Album/Album";
-import CharacterDetail from "./pages/CharacterDetail/CharacterDetail";
+import Detail from "./pages/Detail/Detail";
 
 const { Header, Footer, Content } = Layout;
 const { TabPane } = Tabs;
-const BASE_PATH = "/album";
 
 export default function App() {
   const title = "Marvel Character";
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [location, setLocation] = useLocation();
-  if (location === "/") setLocation(BASE_PATH);
-
   const handlerChangeTab = function (value: string): void {
     setLocation(`/${value}`);
   };
@@ -27,7 +25,7 @@ export default function App() {
           <Route path="/" component={Album} />
           <Route path="/album" component={Album} />
           <Route path="/searchs" component={Characters} />
-          <Route path="/character/:characterId" component={CharacterDetail} />
+          <Route path="/character/:characterId" component={Detail} />
         </Content>
       </Layout>
       <Footer className="App__footer">

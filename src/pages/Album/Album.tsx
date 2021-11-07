@@ -5,16 +5,14 @@ import CharacterList from "../../components/CharacterList/CharacterList";
 
 export default function Album() {
   const characters: CharacterModel[] = useSelector((store: any) => store.album);
-  console.log("Album", characters);
-
   const [total, setTotal] = useState(0);
   useEffect(() => {
-    setTotal(characters.length);
+    setTotal(characters?.length || 0);
   }, [characters]);
 
   return (
-    <>
+    <div className="App__list">
       <CharacterList characters={characters} total={total}></CharacterList>
-    </>
+    </div>
   );
 }

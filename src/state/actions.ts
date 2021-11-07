@@ -1,4 +1,5 @@
 import { CharacterModel } from "../components/Character/character.model";
+
 import {
   DEFAULT_LIMIT,
   fetchByType,
@@ -74,16 +75,26 @@ export const getTypes = (type: string, nameStartsWith: string) => {
   };
 };
 
-export const getCharacterById = (id: any) => {
+export const getCharacterById = (
+  id: number,
+  allCharacters: Array<CharacterModel> = []
+) => {
   return function (dispatch: any) {
-    dispatch(isLoading(true));
-    fetchCharactersById(id)
-      .then((response: any) => {
-        const character = response.data.data.results[0];
-        dispatch(loadCharacterById(character));
-      })
-      .catch((err) => console.error(err))
-      .finally(() => dispatch(isLoading(false)));
+    const characterStored: CharacterModel | undefined = allCharacters.find(
+      (char: CharacterModel) => +char.id === +id
+    );
+
+    if (characterStored) {
+      dispatch(loadCharacterById(characterStored));
+    } else {
+      fetchCharactersById(id)
+        .then((response: any) => {
+          const character = response.data.data.results[0];
+          dispatch(loadCharacterById(character));
+        })
+        .catch((err) => console.error(err))
+        .finally(() => dispatch(isLoading(false)));
+    }
   };
 };
 

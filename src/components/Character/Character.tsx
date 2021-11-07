@@ -20,6 +20,7 @@ export function Character({
   const aspecRatio = "portrait_xlarge";
   const image: string = `${character.thumbnail.path}/${aspecRatio}.${character.thumbnail.extension}`;
   const cover = <img alt="character " src={image} />;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [location, setLocation] = useLocation();
 
   // TODO  move to click in card
