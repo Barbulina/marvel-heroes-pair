@@ -10,7 +10,14 @@ $color-white: white;
   &__list {
     height: 100%;
     overflow: auto;
-    padding-bottom: 62px;
+    padding: 16px 16px 64px;
+  }
+
+  &__list-characters {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: center;
   }
 
   &__footer {

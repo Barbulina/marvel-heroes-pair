@@ -55,6 +55,7 @@ export function Character({
   const defaultActionsInCard: JSX.Element[] = [infoButton];
   const currentAlbum: any = useSelector((store: StateModel) => store.album);
   const [actionsInCard, setActionsInCard] = useState(defaultActionsInCard);
+  // TODO move to custom hook
   useEffect(() => {
     if (currentAlbum && currentAlbum?.length > 0) {
       const isCharacterInAlbum = currentAlbum.some(
