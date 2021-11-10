@@ -5,9 +5,11 @@ import {
   MinusCircleOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../state/actions";
 import useLocation from "wouter/use-location";
+import { StateModel } from "state/configureStore";
+import { useEffect, useState } from "react";
 
 const { Meta } = Card;
 
@@ -16,14 +18,6 @@ export function Character({
 }: {
   character: CharacterModel;
 }): JSX.Element {
-  const dispatch = useDispatch();
-  const aspecRatio = "portrait_xlarge";
-  const image: string = `${character.thumbnail.path}/${aspecRatio}.${character.thumbnail.extension}`;
-  const cover = <img alt="character " src={image} />;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [location, setLocation] = useLocation();
-
-  // TODO  move to click in card
   const infoButton = (
     <>
       <Button
@@ -57,6 +51,29 @@ export function Character({
       </Button>
     </>
   );
+
+  const defaultActionsInCard: JSX.Element[] = [infoButton];
+  const currentAlbum: any = useSelector((store: StateModel) => store.album);
+  const [actionsInCard, setActionsInCard] = useState(defaultActionsInCard);
+  useEffect(() => {
+    if (currentAlbum && currentAlbum?.length > 0) {
+      const isCharacterInAlbum = currentAlbum.some(
+        (char: CharacterModel) => char.id === character.id
+      );
+      if (isCharacterInAlbum) {
+        setActionsInCard([...defaultActionsInCard, removeBotton]);
+      } else {
+        setActionsInCard([...defaultActionsInCard, addButton]);
+      }
+    }
+  }, [currentAlbum, character]);
+  const dispatch = useDispatch();
+  const aspecRatio = "portrait_xlarge";
+  const image: string = `${character.thumbnail.path}/${aspecRatio}.${character.thumbnail.extension}`;
+  const cover = <img alt="character " src={image} />;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [location, setLocation] = useLocation();
+
   const handlerGoToInfoCharacter = (character: CharacterModel): void => {
     setLocation(`/character/${character.id}`);
   };
@@ -66,7 +83,6 @@ export function Character({
   const handlerRemoveCharacter = (character: CharacterModel): void => {
     dispatch(actions.removeCharacterToAlbum(character));
   };
-  const actionsInCard: JSX.Element[] = [infoButton, addButton, removeBotton];
 
   return (
     <>

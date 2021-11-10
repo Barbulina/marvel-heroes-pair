@@ -1,39 +1,49 @@
 import "./App.scss";
-import { Route, useLocation } from "wouter";
-import { Layout, PageHeader, Tabs } from "antd";
-import Characters from "./pages/CharactersSearch/CharatersSearch";
+import { Route } from "wouter";
+import { Layout } from "antd";
+import CharactersSearch from "./pages/CharactersSearch/CharatersSearch";
 import Album from "./pages/Album/Album";
 import Detail from "./pages/Detail/Detail";
+import HeaderApp from "components/Header/Header";
+import FooterApp from "components/FooterApp/FooterApp";
+const { Content } = Layout;
 
-const { Header, Footer, Content } = Layout;
-const { TabPane } = Tabs;
+const SECTIONS = [
+  {
+    label: "Album",
+    path: "/album",
+    key: "album",
+    component: Album,
+    default: true,
+  },
+  {
+    label: "Searchs",
+    path: "/searchs",
+    key: "searchs",
+    component: CharactersSearch,
+  },
+];
 
 export default function App() {
-  const title = "Marvel Character";
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [location, setLocation] = useLocation();
-  const handlerChangeTab = function (value: string): void {
-    setLocation(`/${value}`);
-  };
+  const title = "Character App";
+
   return (
     <Layout className="App">
-      <Header className="App__header">
-        <PageHeader className="site-page-header" title={title} />
-      </Header>
+      <HeaderApp title={title}></HeaderApp>
       <Layout>
         <Content className="App__container">
           <Route path="/" component={Album} />
-          <Route path="/album" component={Album} />
-          <Route path="/searchs" component={Characters} />
           <Route path="/character/:characterId" component={Detail} />
+          {SECTIONS.map((section) => (
+            <Route
+              key={section.key}
+              path={section.path}
+              component={section.component}
+            />
+          ))}
         </Content>
       </Layout>
-      <Footer className="App__footer">
-        <Tabs defaultActiveKey="1" onChange={handlerChangeTab}>
-          <TabPane tab="Album" key="Album" />
-          <TabPane tab="Searchs" key="Searchs" />
-        </Tabs>
-      </Footer>
+      <FooterApp sections={SECTIONS}></FooterApp>
     </Layout>
   );
 }

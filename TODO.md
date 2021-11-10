@@ -18,10 +18,10 @@
 - ???
   
 ## Phase 3 - Refinament
+
 [] - Languages
 
 ### TODO list v2
 
 [] - Create time bar
 [] - Score list component
-

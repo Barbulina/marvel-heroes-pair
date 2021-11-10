@@ -8,7 +8,7 @@ import { StateModel } from "../../state/configureStore";
 import { Button, Spin } from "antd";
 import { useState } from "react";
 
-export default function Characters() {
+export default function CharactersSearch() {
   const [textToFilter, setTextToFilter] = useState(undefined);
   const [filterToApply, setFilterToApply] = useState({});
   const characters: CharacterModel[] | undefined = useSelector(
