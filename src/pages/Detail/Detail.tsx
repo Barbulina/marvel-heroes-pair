@@ -4,6 +4,7 @@ import CharacterDetails from "../../components/CharacterDetail/CharacterDetails"
 import { StateModel } from "../../state/configureStore";
 import * as actions from "../../state/actions";
 import { useEffect } from "react";
+import { Empty } from "antd";
 export default function Detail({ params }: any): JSX.Element {
   const characterId: number = +params.characterId;
   const album = useSelector((state: StateModel) => state.album || []);
@@ -19,8 +20,12 @@ export default function Detail({ params }: any): JSX.Element {
   );
 
   if (character) {
-    return <CharacterDetails character={character}></CharacterDetails>;
+    return (
+      <div className="App__detail">
+        <CharacterDetails character={character}></CharacterDetails>
+      </div>
+    );
   } else {
-    return <div>Character not found</div>;
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}></Empty>;
   }
 }

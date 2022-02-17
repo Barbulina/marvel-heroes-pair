@@ -9,6 +9,8 @@
 [x] - Album view
 [x] - Character details view
 [] - UI design
+  [] - Search interfaces
+  [] - Back buton
 [] - Deploy in github pages
 [] - Unit tests
 [] - e2e tests

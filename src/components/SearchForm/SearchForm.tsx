@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Input } from "antd";
 import { Select } from "antd";
 import { AutoComplete } from "antd";
@@ -50,7 +50,7 @@ export default function SearchForm({
   }, DEBOUNCE_TIME);
 
   return (
-    <React.Fragment>
+    <div className="App__search-form">
       <Search
         onSearch={searchHandler}
         placeholder={placeholder}
@@ -60,7 +60,7 @@ export default function SearchForm({
       <AutoComplete
         allowClear={true}
         options={options}
-        style={{ width: 200 }}
+        style={{ width: "70%" }}
         onSelect={onSelectType}
         onSearch={onSearchByType}
         placeholder="search "
@@ -68,7 +68,7 @@ export default function SearchForm({
       />
       <Select
         placeholder="test"
-        style={{ width: 120 }}
+        style={{ width: "30%" }}
         onChange={handleChangeType}
       >
         {TYPES.map((type) => (
@@ -77,6 +77,6 @@ export default function SearchForm({
           </Option>
         ))}
       </Select>
-    </React.Fragment>
+    </div>
   );
 }

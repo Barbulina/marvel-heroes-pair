@@ -16,16 +16,16 @@ export default function CharacterList({
       });
       return (
         <>
-          <div className="App__list-counter">
+          <h5>
             {characters.length} of {total}
-          </div>
+          </h5>
           <div className="App__list-characters">{cols}</div>
         </>
       );
     } else if (characters?.length === 0) {
       return <Empty />;
     } else {
-      return <p>Start search</p>;
+      return <h3>Start search to view characters</h3>;
     }
   };
   return <>{renderCharacters()}</>;

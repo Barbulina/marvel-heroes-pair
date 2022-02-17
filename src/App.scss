@@ -7,8 +7,20 @@ $color-white: white;
     padding: 0;
   }
 
-  &__list {
+  &__container {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__search-form {
+    flex: 0 0 auto;
+    padding: 16px;
+  }
+
+  &__list {
+    flex: 1 1 auto;
     overflow: auto;
     padding: 16px 16px 64px;
   }
@@ -18,6 +30,11 @@ $color-white: white;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
     align-items: center;
+  }
+
+  &__detail {
+    flex: 1 1 auto;
+    padding: 16px;
   }
 
   &__footer {

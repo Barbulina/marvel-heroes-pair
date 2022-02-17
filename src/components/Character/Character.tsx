@@ -10,6 +10,7 @@ import * as actions from "../../state/actions";
 import useLocation from "wouter/use-location";
 import { StateModel } from "state/configureStore";
 import { useEffect, useState } from "react";
+import { aspectRatio } from "helpers/imagesSizes/imageSizes";
 
 const { Meta } = Card;
 
@@ -21,6 +22,7 @@ export function Character({
   const infoButton = (
     <>
       <Button
+        size="small"
         icon={<InfoCircleOutlined />}
         onClick={() => handlerGoToInfoCharacter(character)}
       >
@@ -31,6 +33,7 @@ export function Character({
   const addButton = (
     <>
       <Button
+        size="small"
         type="primary"
         icon={<PlusCircleOutlined />}
         onClick={() => handlerAddCharacter(character)}
@@ -42,6 +45,7 @@ export function Character({
   const removeBotton = (
     <>
       <Button
+        size="small"
         danger
         type="primary"
         icon={<MinusCircleOutlined />}
@@ -69,7 +73,7 @@ export function Character({
     }
   }, [currentAlbum, character]);
   const dispatch = useDispatch();
-  const aspecRatio = "portrait_xlarge";
+  const aspecRatio = aspectRatio.standard_large;
   const image: string = `${character.thumbnail.path}/${aspecRatio}.${character.thumbnail.extension}`;
   const cover = <img alt="character " src={image} />;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
